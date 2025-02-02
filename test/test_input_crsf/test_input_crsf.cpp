@@ -33,7 +33,7 @@ void test_input_crsf_rc_valid()
   }
 
   for (size_t i = 0; i < sizeof(data); i++) {
-    TEST_ASSERT_EQUAL_UINT8(data[i], frame_data[i]);
+    TEST_ASSERT_EQUAL_UINT8(data[i], frame.data[i]);
   }
 
   const uint8_t crc = Crsf::crc(frame);
