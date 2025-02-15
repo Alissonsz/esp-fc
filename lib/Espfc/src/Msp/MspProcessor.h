@@ -165,7 +165,7 @@ class MspProcessor
     bool process(char c, MspMessage& msg, MspResponse& res, Device::SerialDevice& s)
     {
       _parser.parse(c, msg);
-
+      
       if(msg.state == MSP_STATE_RECEIVED)
       {
         debugMessage(msg);
@@ -655,6 +655,37 @@ class MspProcessor
           }
           _model.reload();
           break;
+
+        case MSP2_MOTOR_OUTPUT_REORDERING:
+          r.writeU8(MAX_SUPPORTED_MOTORS);
+
+          for (uint8_t i = 0; i < MAX_SUPPORTED_MOTORS; i++)
+          {
+            r.writeU8(i);
+          }
+
+          break;
+
+        case MSP2_SEND_DSHOT_COMMAND:
+        {
+          const bool armed = _model.isActive(MODE_ARMED);
+
+          if (!armed)
+          {
+            const uint8_t commandType = m.readU8();
+            const uint8_t motorIndex = m.readU8();
+            const uint8_t commandCount = m.readU8();
+
+            for (uint8_t i = 0; i < commandCount; i++)
+            {
+              const uint8_t command = m.readU8();
+              Serial.println("Send DSHOT command: " + String(commandType) + " " + String(motorIndex) + " " + String(command));
+              // call dshotSendCommand(commandType, motorIndex, command);
+            }
+          }
+
+          break;
+        }
 
         case MSP_BLACKBOX_CONFIG:
           r.writeU8(1); // Blackbox supported

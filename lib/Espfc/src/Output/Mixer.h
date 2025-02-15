@@ -10,7 +10,7 @@ namespace Output {
 class Mixer
 {
   public:
-    Mixer(Model& model);
+    Mixer(Espfc::Model& model);
     int begin();
     int update();
 
@@ -19,6 +19,7 @@ class Mixer
     float limitOutput(float output, const OutputChannelConfig& occ, int limit);
     void writeOutput(const MixerConfig& mixer, float * out);
     void readTelemetry();
+    EscDriver * getMotor();
     float inline erpmToHz(float erpm);
     float inline erpmToRpm(float erpm);
     bool inline _stop(void);

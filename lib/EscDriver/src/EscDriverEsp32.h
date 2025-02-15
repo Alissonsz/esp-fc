@@ -6,6 +6,7 @@
 #include "EscDriver.h"
 #include <driver/rmt.h>
 #include "Timer.h"
+#include "DshotCommands.hpp"
 
 class EscDriverEsp32: public EscDriverBase
 {
@@ -83,6 +84,7 @@ class EscDriverEsp32: public EscDriverBase
     void end();
     int attach(size_t channel, int pin, int pulse);
     int write(size_t channel, int pulse);
+    int reverseMotor(size_t channel, bool reverse);
     void apply();
     int pin(size_t channel) const;
     uint32_t telemetry(size_t channel) const;
@@ -100,7 +102,8 @@ class EscDriverEsp32: public EscDriverBase
     void transmitAll();
     void readTelemetry();
     void writeAnalogCommand(uint32_t channel, int32_t pulse);
-    void writeDshotCommand(uint32_t channel, int32_t pulse);
+    void writeDshotThrottleCommand(uint32_t channel, int32_t pulse);
+    void writeDshotCommand(uint32_t channel, dshot_cmd_e cmd);
     void transmitCommand(uint32_t channel);
     uint32_t getClockDivider() const;
     uint32_t getPulseMin() const;

@@ -20,7 +20,6 @@ int Mixer::begin()
   };
   escMotor.begin(motorConf);
   _model.state.escMotor = _motor = &escMotor;
-  _model.logger.info().log(F("MOTOR CONF")).log(_model.config.output.protocol).log(_model.config.output.async).log(_model.config.output.rate).log(_model.config.output.dshotTelemetry).logln(ESC_DRIVER_MOTOR_TIMER);
 
   if(_model.config.output.servoRate)
   {
@@ -33,7 +32,6 @@ int Mixer::begin()
     };
     escServo.begin(servoConf);
     _model.state.escServo = _servo = &escServo;
-    _model.logger.info().log(F("SERVO CONF")).log(ESC_PROTOCOL_PWM).log(true).logln(_model.config.output.servoRate).logln(ESC_DRIVER_SERVO_TIMER);
   }
   _erpmToHz = EscDriver::getErpmToHzRatio(_model.config.output.motorPoles);
   _statsCounterMax = _model.state.mixerTimer.rate / 2;
@@ -380,6 +378,5 @@ bool Mixer::_stop(void)
 }
 
 }
-
 }
 
